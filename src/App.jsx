@@ -6,7 +6,9 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [title, setTitle] = useState("");
- 
+  // const [resposnseData, setResposnseData] = useState(null);
+
+  // url="";
 
   useEffect(() => {
     const fun = async () => {
@@ -14,8 +16,8 @@ function App() {
         const res = await fetch("https://jsonplaceholder.typicode.com/posts");
         if (!res.ok) throw new Error("error");
         const data = await res.json();
-        setPosts(data); 
-        
+        setPosts(data); //posts state ko sirf data se replace kar dega.
+        // console.log(data.json);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -30,7 +32,7 @@ function App() {
   const handlePost = async () => {
     try {
       const res = await fetch("https://jsonplaceholder.typicode.com/posts", {
-        
+        //yha url means endpoint jha post request bhejna hain
         method: "POST",
         body: JSON.stringify({ title: "foo", body: "lorem*3", userid: 1 }),
         headers: { "Content-type": "application/json" },
@@ -40,11 +42,41 @@ function App() {
 
       const newPost = await res.json();
       setPosts([newPost, ...posts]);
-     
+      //tum new post ko existing posts ke saath combine kar rahe ho.
     } catch (err) {
       setError(err.message);
     }
   };
+
+  //PUT
+
+  const updatePost = async () => {
+    try {
+    const res = await fetch(`https://jsonplaceholder.typicode.com/posts/$`, {
+      method: "PUT",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({
+        title: "Updated title",
+        body: "Updated body content",
+        userId: 1,
+      }),
+    });
+
+    if (!res.ok) throw new Error("Failed to update post");
+    const updatedPost = await res.json();
+
+    // 🧩 Update local state
+    setPosts((prevPosts) =>
+      prevPosts.map((post) =>
+        post.id === id ? updatedPost : post
+      )
+    );
+
+    console.log("Updated successfully:", updatedPost);
+  } catch (err) {
+    setError(err.message);
+  }
+};
 
 
   if (loading) return <h3> loading...</h3>;
@@ -63,6 +95,11 @@ function App() {
         <button style={{ color: "red" }} onClick={handlePost}>
           Add Post
         </button>
+
+        <div>
+          <h2> Update Post Request</h2>
+          <button onClick={updatePost}>update post</button>
+        </div>
 
         <h1>Posts Data</h1>
 

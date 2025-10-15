@@ -78,6 +78,18 @@ function App() {
   }
 };
 
+  //DELETE
+
+  const deletePost = async () => {
+    const res = await fetch("https://jsonplaceholder.typicode.com/posts/1", {
+      method: "DELETE",
+    });
+    if (res.ok) {
+      alert("Post deleted successfully!");
+    } else {
+      alert("Failed to delete post");
+    }
+  };
 
   if (loading) return <h3> loading...</h3>;
   if (error) return <h3> error {error}</h3>;
@@ -99,6 +111,11 @@ function App() {
         <div>
           <h2> Update Post Request</h2>
           <button onClick={updatePost}>update post</button>
+        </div>
+
+        <div>
+          <h2>DELETE Request Example</h2>
+          <button onClick={deletePost}>Delete Post</button>
         </div>
 
         <h1>Posts Data</h1>

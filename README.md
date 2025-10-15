@@ -29,18 +29,16 @@ Endpoints used:
 ```bash
 git clone https://github.com/your-username/react-jsonplaceholder-crud.git
 cd react-jsonplaceholder-crud
+
 2. Install dependencies
-
 ```bash
-Copy code
 npm install
+
 3. Run dev server
-
 ```bash
-Copy code
 npm run dev
-4. Open in browser at http://localhost:5173
 
+4. Open in browser at http://localhost:5173
 Deploy
 You can deploy this app on Vercel or Netlify.
 
